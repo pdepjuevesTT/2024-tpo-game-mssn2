@@ -2,9 +2,10 @@
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Manuel Acero
+- Santiago Pablo Cueliche
+- Santiago Lucas Schiera
+- Nicolas Gonzalo Torre
 
 ## Capturas
 
