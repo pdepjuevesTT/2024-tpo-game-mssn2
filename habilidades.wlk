@@ -1,13 +1,10 @@
-//En este documenta iran todas las habiliadades y su respectivo comportamiento
+//Ens este documenta iran todas las habiliadades y su respectivo comportamiento
+class Habilidad{}
 
-class Habilidades{
-    
-}
+class HabilidadBasica inherits Habilidad{}
 
-class HabilidadBasica inhertis Habilidades{}
+class HabilidadSecundaria inherits Habilidad{} 
 
-class HabilidadSecundaria inhertis Habilidades{} 
+class HabilidadSuperior inherits Habilidad{}
 
-class HabilidadSuperior inhertis Habilidades{}
-
-class HabilidadNoOfensiva inhertis Habilidades{}
+class HabilidadNoOfensiva inherits Habilidad{}

@@ -1,10 +1,10 @@
 //En este documento iran todos los tipos de jugadores con su comportamiento 
-class Jugador{}
+class Personaje{}
 
-class Guerrero inherits Jugador{}
+class Guerrero inherits Personaje{}
 
-class Mago inherits Jugador {}
+class Mago inherits Personaje {}
 
-class Arquero inherits  Jugador{}
+class Arquero inherits  Personaje{}
 
-class Asesino inherits Jugador{}
+class Asesino inherits Personaje{}

@@ -1,20 +1,23 @@
 import wollok.game.*
 
 import jugador.*
+import configuracion.*
+
 
 program juego {
-	game.title("Nombre del juego")
-	game.height(100)
-	game.width(200)
-
-	// add assets in asset folder, for example, for the background
-   game.boardGround("fondovilla.jpg")	
-
-
-
-
-
-	//game.showAttributes(pepita) //Debug
+	gameManager.configuracionIncialTablero()
+	gameManager.cambioMenuIncio()
 
 	game.start()
+
+	//Deberia hacer un loop en la que se cumpla esta secuancia hasta que se quiera terminar la partida 
+	if(gameManager.condicionDeIncioHaciaCombate()) 
+		gameManager.cambioMenuCombate()
+	if(gameManager.condidicionDeCombateHaciaIncio())
+		gameManager.cambioMenuIncio()
+	
+
+
 }
+
+
