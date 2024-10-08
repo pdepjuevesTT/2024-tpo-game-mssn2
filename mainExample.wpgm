@@ -1,6 +1,6 @@
 import wollok.game.*
 
-import jugador.*
+import personaje.*
 import configuracion.*
 
 
@@ -8,7 +8,7 @@ program juego {
 	gameManager.configuracionIncialTablero()
 	gameManager.cambioMenuIncio()
 
-	game.start()
+	gameManager.comenzarJuego()
 
 	//Deberia hacer un loop en la que se cumpla esta secuancia hasta que se quiera terminar la partida 
 	if(gameManager.condicionDeIncioHaciaCombate()) 
