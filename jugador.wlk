@@ -1,0 +1,5 @@
+import configuracion.*
+
+object jugador {
+  
+}

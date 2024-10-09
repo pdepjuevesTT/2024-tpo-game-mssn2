@@ -6,15 +6,17 @@ import configuracion.*
 
 program juego {
 	gameManager.configuracionIncialTablero()
-	gameManager.cambioMenuIncio()
 
+
+	gameManager.cambioMenuIncio()
 	gameManager.comenzarJuego()
 
+
 	//Deberia hacer un loop en la que se cumpla esta secuancia hasta que se quiera terminar la partida 
-	if(gameManager.condicionDeIncioHaciaCombate()) 
-		gameManager.cambioMenuCombate()
-	if(gameManager.condidicionDeCombateHaciaIncio())
-		gameManager.cambioMenuIncio()
+	//if(gameManager.condicionDeIncioHaciaCombate()) 
+	//	gameManager.cambioMenuCombate()
+	//if(gameManager.condidicionDeCombateHaciaIncio())
+	//	gameManager.cambioMenuIncio()
 	
 
 
