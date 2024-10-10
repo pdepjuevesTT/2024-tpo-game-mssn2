@@ -1,69 +1,73 @@
-//Aca se van a concentrar todas las imagenes que contenga el juego 
 import personaje.*
 import elementos.*
+import wollok.game.*
 
-
-object sprites{
-    const property fondoEscenario1 = "fondovilla.jpg"
-    const property fondoEscenario2 = " .png"
-    const property finDelJuego     = " .png"
-
-}
 //Aca se van a concentrar todos los audios que contenga el juego 
 object sounds {
+  const property backGround = "backgroundSound.mp3" 
+  const property round1     = "round1.mp3" 
+  const property fondoCombate = "fondoCombate.mp3" 
   
 }
 /*Mediante este objeto se manejara todas las configuraciones del juego. Interaccionara con los jugadores, botones 
   y todo lo que produzca cambios pero el sera el unico responsable de llevar a cabo la accion en si.
 */
 object gameManager {
-  var property condicionParaFinalizarJuego = false
-  var property condicionCambioDeEscenario = false
-  var property puedeSeleccionarElOtroJugador = false
-  var property seAcaboElTurno = false
+  const property sonidoFondo = game.sound(sounds.backGround())
+  const property sonidoComienzoPelea = game.sound(sounds.round1())
+  const property sonidoFondoCombate = game.sound(sounds.fondoCombate()) 
 
-  method cambioMenuIncio() {
-    game.boardGround(sprites.fondoEscenario1())
-    // y todos los visuales correspondientes al escenario de combate
-    self.recibirInstrucciones()
+  method menuIncio() {
 
-    //Es para mostrar las estadisticas de los personajes que el jugador elegira//
-    //game.showAttributes(new Personaje() ) 
-    //game.showAttributes(new Personaje() )  
+    game.boardGround(pantallaIncio)
 
-    //En este menu se podra elegir cerrar el juego o no 
-    
-  if(self.condicionCambioDeEscenario()){self.cerrarJuego()}
-    //selectorDePersonaje.elegirPersonaje()
+    game.schedule(2000,{sonidoFondo.play()})
+    sonidoFondo.shouldLoop(true)
+
+    game.addVisual(seleccionador)
  
   }
 
-  method cambioMenuCombate() {
-    game.boardGround(sprites.fondoEscenario2()) 
-    self.recibirInstrucciones()  
-    // y todos los visuales correspondientes al escenario de combate
+  method menuCombate() {
+    game.removeVisual(seleccionador)
+    sonidoFondo.stop()
+    
+    game.boardGround(escenarioCombate1)    
+    game.schedule(500, {sonidoComienzoPelea.play()})
+    game.schedule(4000, {sonidoFondoCombate.play()})
+    sonidoFondoCombate.shouldLoop(true)
+
+  
+  
   }
 
 //recibe todas las instrucciones por parte de los JUGADORES (diferente a los personajes)
-  method recibirInstrucciones() {
-
-    keyboard.enter().onPressDo{self.text()}
-    
-  }
-
-
-method text() ="Hola"
+  //method recibirInstrucciones() {
+  //  keyboard.enter().onPressDo{condicionParaFinalizarJuego = true}
+  //}
 
   method configuracionIncialTablero() {
 	game.title("UTN combat")
-	game.height(100)
-	game.width(210)
-    //ver tamanio de la celda
+	game.height(10)
+	game.width(22)
+  game.cellSize(100)
+  }
+
+
+  method configuracionSonido() {
+    keyboard.num1().onPressDo({sonidoFondo.pause()})
+    keyboard.num0().onPressDo({sonidoFondo.resume()})
+    keyboard.num2().onPressDo({sonidoFondo.volume(0.5)})
+    keyboard.num3().onPressDo({sonidoFondo.volume(1)})
+  }
+
+  method configuracionCambioDeMenu() {
+    keyboard.right().onPressDo({self.menuCombate()})
+    keyboard.left().onPressDo({self.menuIncio()})
   }
 
 
 //ACCION DE COMENZAR O CERRAR EL JUEGO//
-
   method cerrarJuego(){
   game.stop()
   }
@@ -72,5 +76,6 @@ method text() ="Hola"
     game.start()
   }
 }
+
 
 

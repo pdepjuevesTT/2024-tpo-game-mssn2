@@ -2,22 +2,21 @@ import wollok.game.*
 
 import personaje.*
 import configuracion.*
+import elementos.*
+
 
 
 program juego {
 	gameManager.configuracionIncialTablero()
 
+	gameManager.configuracionSonido()
+	
+	gameManager.configuracionCambioDeMenu()
 
-	gameManager.cambioMenuIncio()
+	gameManager.menuIncio()
+
 	gameManager.comenzarJuego()
 
-
-	//Deberia hacer un loop en la que se cumpla esta secuancia hasta que se quiera terminar la partida 
-	//if(gameManager.condicionDeIncioHaciaCombate()) 
-	//	gameManager.cambioMenuCombate()
-	//if(gameManager.condidicionDeCombateHaciaIncio())
-	//	gameManager.cambioMenuIncio()
-	
 
 
 }
