@@ -17,27 +17,30 @@ object gameManager {
   const property sonidoComienzoPelea = game.sound(sounds.round1())
   const property sonidoFondoCombate = game.sound(sounds.fondoCombate()) 
 
+
   method menuIncio() {
 
-    game.boardGround(pantallaIncio)
+    game.addVisual(menuSeleccion)
+    game.addVisual(selector1)
+    game.addVisual(selector2)
 
-    game.schedule(2000,{sonidoFondo.play()})
+    game.schedule(500,{sonidoFondo.play()})
     sonidoFondo.shouldLoop(true)
 
-    game.addVisual(seleccionador)
- 
+
+
   }
 
   method menuCombate() {
-    game.removeVisual(seleccionador)
-    sonidoFondo.stop()
+
+    game.removeVisual(menuSeleccion)
+
+    game.addVisual(escenarioCombate1)
+
     
-    game.boardGround(escenarioCombate1)    
     game.schedule(500, {sonidoComienzoPelea.play()})
     game.schedule(4000, {sonidoFondoCombate.play()})
     sonidoFondoCombate.shouldLoop(true)
-
-  
   
   }
 
@@ -48,9 +51,10 @@ object gameManager {
 
   method configuracionIncialTablero() {
 	game.title("UTN combat")
-	game.height(10)
-	game.width(22)
-  game.cellSize(100)
+	game.height(40)
+	game.width(88)
+  game.cellSize(25)
+  game.boardGround("grisFondo.png")
   }
 
 
@@ -62,10 +66,27 @@ object gameManager {
   }
 
   method configuracionCambioDeMenu() {
-    keyboard.right().onPressDo({self.menuCombate()})
-    keyboard.left().onPressDo({self.menuIncio()})
+    keyboard.n().onPressDo({
+                              sonidoFondo.stop()
+                              self.menuCombate()})
+    keyboard.l().onPressDo({     
+                              sonidoFondoCombate.stop()
+                              sonidoComienzoPelea.stop()
+                              self.menuIncio()})
   }
 
+method configuracionDeDesplazamiento() {
+
+  keyboard.left().onPressDo({selector1.irDerecha()})
+  keyboard.right().onPressDo({selector1.irDerecha()})
+  keyboard.up().onPressDo({selector1.subir()})
+  keyboard.down().onPressDo({selector1.bajar()})
+
+  keyboard.w().onPressDo({selector2.subir()})
+  keyboard.s().onPressDo({selector2.bajar()})
+  keyboard.a().onPressDo({selector2.irIzquierda()})
+  keyboard.d().onPressDo({selector2.irDerecha()})
+}
 
 //ACCION DE COMENZAR O CERRAR EL JUEGO//
   method cerrarJuego(){
@@ -76,6 +97,3 @@ object gameManager {
     game.start()
   }
 }
-
-
-
