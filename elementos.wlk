@@ -1,11 +1,24 @@
 import configuracion.*
 import wollok.game.*
+import personaje.*
+
 
 //Visuales en general//
 class Visual { 
     var property position = game.origin()
     var property image  
 }
+
+class Limite inherits Visual{
+
+    override method image() = "pixelNegro.png"
+
+    method moverse(direccion) {
+        throw new DomainException (message = "No se puede atravesar este limite")
+    }
+}
+
+const pixel= new Limite(image = "pixelNegro.png")
 
 // las "const" se tratan como un objeto (representativo de los escenarios) que seran agregados o removidos conforme se cambie de menu  
 const menuSeleccion = new Visual (image=  "menuSeleccion.png")
@@ -35,9 +48,11 @@ class Selector inherits Visual{
     position = position.left(26)
     } 
 
-    method seleccionarPersonaje() {
-    
-    listaDePersonajes.find({unPersonaje => self.position() == unPersonaje.position()})    
+    method encontrarPersonajeEnCasillaQueEstoy() = listaDePersonajes.find({personaje => self.position() ==  personaje.position()})    
+
+//NO SE SI ES RESPONSABILIDAD DEL SELECTOR O DEL EL JUGADOR//
+    method seleccionarPersonaje(unJugador) {
+    unJugador.personaje(self.encontrarPersonajeEnCasillaQueEstoy())
     }
 
 }
@@ -46,6 +61,17 @@ const selector1 = new Selector(position = game.at(6,1) ,image = "selectorAzul.pn
 const selector2 = new Selector(position = game.at(58, 1), image = "selectorVerde.png", jugador = 2)
 
 
+
+const golpeBasico1 = new Visual(position = game.at(12,3) ,  image ="basico1Dimensionado.png" )
+const golpeBasico2 = new Visual(position = game.at(12,9) ,  image = "basico2Dimensionado.png")
+const noOfensiva   = new Visual(position = game.at(12,15) ,  image ="noOfensivaDimensionado.png" )
+const ulti         = new Visual(position = game.at(0,10) ,  image = "ultiDimensionada.png")
+
+
+const golpeBasicoo1 = new Visual(position = game.at(60,3) ,  image ="basico1Dimensionado.png" )
+const golpeBasicoo2 = new Visual(position = game.at(60,9) ,  image = "basico2Dimensionado.png")
+const noOfensivaa   = new Visual(position = game.at(60,15) ,  image ="noOfensivaDimensionado.png" )
+const ultii         = new Visual(position = game.at(45,10) ,  image = "ultiDimensionada.png")
 
 //Barras en el menu de combate//
 class BarraGeneral{
