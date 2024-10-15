@@ -9,6 +9,7 @@ class Visual {
     var property image  
 }
 
+//NO TERMINADO
 class Limite inherits Visual{
 
     override method image() = "pixelNegro.png"
@@ -25,6 +26,7 @@ const menuSeleccion = new Visual (image=  "menuSeleccion.png")
 const escenarioCombate1 = new Visual(image = "fondoVilla.png")
 const escenarioCombate2 = new Visual(image = "")
 const escenarioCombate3 = new Visual(image = "")
+
 
 
 

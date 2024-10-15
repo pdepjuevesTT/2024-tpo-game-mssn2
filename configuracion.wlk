@@ -30,7 +30,7 @@ object gameManager {
 
   //game.addVisualCharacter(pixel)
 
-   // self.cargarLimites()
+   //self.cargarLimites()
 
   }
 
@@ -42,11 +42,11 @@ object gameManager {
 
     self.seleccionPersonaje()
     
-    //game.schedule(500, {sonidoComienzoPelea.play()})
-    //game.schedule(4000, {sonidoFondoCombate.play()})
-    //sonidoFondoCombate.shouldLoop(true)
+    game.schedule(500, {sonidoComienzoPelea.play()})
+    game.schedule(4000, {sonidoFondoCombate.play()})
+    sonidoFondoCombate.shouldLoop(true)
 
-    self.sistemasDeTurnos()
+    //self.sistemasDeTurnos()
   
   }
 
@@ -183,6 +183,6 @@ object sistemaDeTurnos {
   var property jugador2 = null 
   
 
-  method verificarReglaInicioPelea(unPersonaje , otroPersonaje) = 
-    if()
+ // method verificarReglaInicioPelea(unPersonaje , otroPersonaje) = 
+    //if()
 }
