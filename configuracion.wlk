@@ -19,6 +19,7 @@ object gameManager {
   const property sonidoFondoCombate = game.sound(sounds.fondoCombate()) 
   const escenariosCombate = [escenarioCombate1] //falta agregar los otros, logica implementada
 
+
   method menuIncio() {
 
     game.addVisual(menuSeleccion)
@@ -46,9 +47,9 @@ object gameManager {
     game.schedule(4000, {sonidoFondoCombate.play()})
     sonidoFondoCombate.shouldLoop(true)
 
-    //self.sistemasDeTurnos()
   
   }
+
 
 /*
   method cargarLimites() {
@@ -157,6 +158,12 @@ method configuracionDeDesplazamiento() {
   keyboard.down().onPressDo({selector1.bajar()})
   keyboard.enter().onPressDo({selector1.seleccionarPersonaje(jugador1)})
 
+  //COMBATE J1
+  keyboard.q().onPressDo({})
+  keyboard.e().onPressDo({})
+  keyboard.r().onPressDo({})
+  keyboard.t().onPressDo({})
+
 
   keyboard.w().onPressDo({selector2.subir()})
   keyboard.s().onPressDo({selector2.bajar()})
@@ -164,7 +171,11 @@ method configuracionDeDesplazamiento() {
   keyboard.d().onPressDo({selector2.irDerecha()})
   keyboard.space().onPressDo({selector2.seleccionarPersonaje(jugador2)})
 
-  //FALTAR DELIMITAR LOS BORDES//  
+  //COMBATE J2
+  keyboard.z().onPressDo({})
+  keyboard.x().onPressDo({})
+  keyboard.c().onPressDo({})
+  keyboard.v().onPressDo({})
 }
 
 //ACCION DE COMENZAR O CERRAR EL JUEGO//
