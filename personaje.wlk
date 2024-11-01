@@ -1,5 +1,6 @@
 import wollok.game.*
 import configuracion.*
+import habilidades.*
 
 //En este documento iran todos los tipos de jugadores con su comportamiento 
 class Personaje{
@@ -10,27 +11,13 @@ class Personaje{
     var property probabilidadDeCritico 
     const property image 
     var property velocidad
+    var property golpes = [golpeBasico1]
 
-
-    method ataqueBasico1(rival) {
-        rival.vida(rival.vida() - self.fuerza() * 0.1) 
-        energia =- 1
+    method atacarAlResto() {
+        
+      
     }
 
-    method ataqueBasico2(rival){
-        rival.vida(rival.vida() - self.fuerza() * 0.35)
-        energia =- 20
-    }
-
-    method ataqueUlti(rival) {
-        rival.vida(rival.vida() - self.fuerza())
-        energia =- 90
-    }
-
-    method habilidadNoOfensiva(){
-    energia =+ 25
-
-    }
 }
 
 class Guerrero inherits Personaje{

@@ -41,7 +41,7 @@ object gameManager {
 
     game.addVisual(escenariosCombate.anyOne())
 
-    self.seleccionPersonaje()
+    //self.seleccionPersonaje()
     
     game.schedule(500, {sonidoComienzoPelea.play()})
     game.schedule(4000, {sonidoFondoCombate.play()})
@@ -159,7 +159,7 @@ method configuracionDeDesplazamiento() {
   keyboard.enter().onPressDo({selector1.seleccionarPersonaje(jugador1)})
 
   //COMBATE J1
-  keyboard.q().onPressDo({})
+  keyboard.q().onPressDo({jugador1.atacaA(jugador2) , habilidadBasica1}) // y asi 
   keyboard.e().onPressDo({})
   keyboard.r().onPressDo({})
   keyboard.t().onPressDo({})

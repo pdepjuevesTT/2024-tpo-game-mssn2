@@ -1,4 +1,8 @@
 import configuracion.*
+import elementos.*
+import personaje.*
+
+
 
 class Jugador{
     var property personaje = null
@@ -13,40 +17,35 @@ class Jugador{
 const jugador1 = new Jugador()
 const jugador2 = new Jugador()
 
+
+
 object combate {
-    var property jugador1 = null
-    var property jugador2 = null
-    var property jugadorQuePegaPrimero = self.pegaPrimero()
+    var property listaPersonajesOrdenada = null
     var property ganador = null 
 
 
-//Verificar que no este tan programado imperativamente
-    method pegaPrimero() = 
-    if(jugador1.velocidad() > jugador2.velocidad()) jugador1
-        
-    else jugador2
+    method ordenarListaSegunVelocidadDeAtaque() {
+        listaPersonajesOrdenada = listaDePersonajes.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
+    }
 
+
+    //keyBoard.presionaTecla1 y presionaTecla2 pelea(hablidadP1,habilidadP2)
     method pelea() {
-        if(jugador1.vida() > 0 && jugador2.vida() > 0){
-            jugadorQuePegaPrimero.atacaA(jugadorQuePegaPrimero.oponente())
-            jugadorQuePegaPrimero.oponente().atacaA(jugadorQuePegaPrimero)
-            self.pelea()
+        if(listaPersonajesOrdenada.all({jugador => jugador.vida() > 0})){
+            listaPersonajesOrdenada.fold(null, {jugador => jugador.atacarAlResto()})
+            self.ordenarListaSegunVelocidadDeAtaque()         
+            //self.pelea()
         }
         else
         self.terminarBatalla()
     }
 
     method terminarBatalla() {
-        if (jugador1.vida() > 0) {
-            ganador = jugador1
-        } else if (jugador2.vida() > 0) {
-            ganador = jugador2
-        } else {
-            ganador = jugadorQuePegaPrimero
+        ganador = 
+        if(listaPersonajesOrdenada.all({jugador => jugador.vida() <= 0})) listaPersonajesOrdenada.first()
+
+        else listaPersonajesOrdenada.filter({personaje =>  personaje.vida() > 0}).max({personaje => personaje.vida()})
         }
-    }
-
-
 }
 
 

@@ -33,6 +33,7 @@ const escenarioCombate3 = new Visual(image = "")
 class Selector inherits Visual{
     var property jugador 
     //agregar metodos de movimiento para poder seleccionar personajes 
+    const grillas = [grilla1, grilla2]
 
     method subir() {
     position = position.up(13)
@@ -49,15 +50,53 @@ class Selector inherits Visual{
     method irIzquierda() {
     position = position.left(26)
     } 
+    
+    method encontrarGrillaActual() {
+        return grillas.find({ grilla => self.position() == grilla.position() }) // Encuentra la grilla actual
+    }
 
-    method encontrarPersonajeEnCasillaQueEstoy() = listaDePersonajes.find({personaje => self.position() ==  personaje.position()})    
+    method seleccionarPersonaje() {
+        const grilla = self.encontrarGrillaActual()
+        if (grilla != null && grilla.tienePersonaje()) {
+            jugador.personaje(grilla.personajeActual)
+        }
+
+    }
+    //method encontrarPersonajeEnCasillaQueEstoy() = listaDePersonajes.find({personaje => self.position() ==  personaje.position()})    
 
 //NO SE SI ES RESPONSABILIDAD DEL SELECTOR O DEL EL JUGADOR//
+/*
     method seleccionarPersonaje(unJugador) {
     unJugador.personaje(self.encontrarPersonajeEnCasillaQueEstoy())
     }
 
+*/
+
 }
+
+// codigo de los bepis (Nico y Santi)
+
+class Grilla inherits Visual {
+    //var property position
+    var property personajeActual 
+    //El personaje que puede estar en esta grilla
+    //Constructor para inicializar la posición de la grilla y si contiene un personaje
+    /*
+    constructor(position, personaje = null) {
+        self.position = position
+        self.personaje = personaje
+    }
+    */
+
+    // Método para verificar si la grilla tiene un personaje
+    method tienePersonaje() = personajeActual != null
+}
+
+const grilla1 = new Grilla(position = game.at(1,1), image = "fotoStan", personajeActual = stan)
+const grilla2 = new Grilla(position = game.at(30,30), image = "fotoCarman", personajeActual = carman)
+
+// codigo de los bepis (Nico y Santi)
+
 
 const selector1 = new Selector(position = game.at(6,1) ,image = "selectorAzul.png", jugador = 1)
 const selector2 = new Selector(position = game.at(58, 1), image = "selectorVerde.png", jugador = 2)
