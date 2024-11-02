@@ -1,4 +1,3 @@
-
 class Habilidad{
     var property energiaQueResta 
     var property fuerzaExtra = 0

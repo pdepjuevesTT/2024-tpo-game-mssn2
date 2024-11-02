@@ -26,6 +26,10 @@ object gameManager {
     game.addVisual(selector1)
     game.addVisual(selector2)
 
+    self.agregarVisualesDeLimites()
+
+
+
     game.schedule(500,{sonidoFondo.play()})
     sonidoFondo.shouldLoop(true)
 
@@ -50,10 +54,32 @@ object gameManager {
   
   }
 
+  method agregarVisualesDeLimites() {
+    game.addVisual(celdaBajo1)
+    game.addVisual(celdaBajo2)
+    game.addVisual(celdaBajo3)
+
+
+    game.addVisual(celdaArribaIzq)
+    game.addVisual(celdaBajoIzq)
+    game.addVisual(celdaMedioIzq)
+  
+
+    game.addVisual(celdaArriba1)
+    game.addVisual(celdaArriba2)
+    game.addVisual(celdaArriba3)
+
+
+  game.addVisual(celdaArribaDer)
+  game.addVisual(celdaMedioDer)
+  game.addVisual(celdaBajoDer)
+
+    
+  }
 
 /*
   method cargarLimites() {
-    const ancho = game.width() - 5
+    const ancho = game.width() - 6
     const largo = game.width() - 5
     const limites =[]
 
@@ -176,6 +202,10 @@ method configuracionDeDesplazamiento() {
   keyboard.x().onPressDo({})
   keyboard.c().onPressDo({})
   keyboard.v().onPressDo({})
+
+  game.whenCollideDo(selector1, {elemento => selector1.colisiona(elemento)})
+  game.whenCollideDo(selector2, {elemento => selector2.colisiona(elemento)})
+
 }
 
 //ACCION DE COMENZAR O CERRAR EL JUEGO//

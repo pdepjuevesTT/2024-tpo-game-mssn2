@@ -9,17 +9,43 @@ class Visual {
     var property image  
 }
 
-//NO TERMINADO
 class Limite inherits Visual{
 
-    override method image() = "pixelNegro.png"
+    //override method image() = "pixelNegro.png"
 
-    method moverse(direccion) {
-        throw new DomainException (message = "No se puede atravesar este limite")
+    method colision() {
+        throw new DomainException(message = "No se puede atravesar este limite")
     }
-}
+}   
 
-const pixel= new Limite(image = "pixelNegro.png")
+const celdaArriba1 =new Limite(image = "celdaBalanca.png" , position = game.at(6,40))
+const celdaArriba2 =new Limite(image = "celdaBalanca.png" , position = game.at(32,40))
+const celdaArriba3 =new Limite(image = "celdaBalanca.png" , position = game.at(58,40))
+
+const celdaArribaIzq =new Limite(image = "celdaBalanca.png" ,position = game.at(-20,27))
+const celdaBajoIzq = new Limite(image = "celdaBalanca.png" ,position = game.at(-20,1))
+const celdaMedioIzq= new Limite(image = "celdaBlanca.png" ,position =game.at(-20,14))
+
+const celdaBajo1 = new Limite(image = "celdaBalanca.png" , position = game.at(6,-12)) 
+const celdaBajo2 = new Limite(image = "celda",position = game.at(32,-12))
+const celdaBajo3 = new Limite(image = "celda",position = game.at(58,-12))
+
+const celdaArribaDer =new Limite(image = "pixel.jpg" ,position = game.at(84,27))
+const celdaMedioDer = new Limite(image = "pixel.jpg" ,position = game.at(84,14))
+const celdaBajoDer  = new Limite(image = "pixel.jpg" ,position = game.at(84,1))
+
+/*
+en (6,1) -> personaje1
+en (6,14) -> personaje2
+en (6,27) -> personaje3
+en (32,27) -> personaje4
+en(58,27) -> personaje5
+en(58,14) -> personaje6
+en(58,1)->personaje7
+en(32, 1) -> peronsaje8
+*/
+
+
 
 // las "const" se tratan como un objeto (representativo de los escenarios) que seran agregados o removidos conforme se cambie de menu  
 const menuSeleccion = new Visual (image=  "menuSeleccion.png")
@@ -28,29 +54,55 @@ const escenarioCombate2 = new Visual(image = "")
 const escenarioCombate3 = new Visual(image = "")
 
 
-
-
 class Selector inherits Visual{
     var property jugador 
+    var direccion = arriba
     //agregar metodos de movimiento para poder seleccionar personajes 
-    const grillas = [grilla1, grilla2]
+    //const grillas = [grilla1, grilla2]
 
+    
+    
     method subir() {
-    position = position.up(13)
+    direccion = arriba
+	self.avanzar()
     }
 
     method bajar() {
-    position = position.down(13)
+    direccion = abajo
+	self.avanzar()
     }
 
     method irDerecha() {
-    position = position.right(26)
+    direccion = derecha
+	self.avanzar()
     }
 
     method irIzquierda() {
-    position = position.left(26)
+    direccion = izquierda
+	self.avanzar()
     } 
     
+    method avanzar() {
+		position = direccion.siguiente(position)
+	}
+
+    method retrocede() {
+		position = direccion.opuesto().siguiente(position)
+    }
+
+    method colision(){} //solo por el hecho de que un selector puede colisionar con otro
+
+    method colisiona(elemento) {
+        try{
+        elemento.colision()}
+        catch e{
+            self.retrocede()
+            throw e        
+        }
+    }
+    
+    
+    /*
     method encontrarGrillaActual() {
         return grillas.find({ grilla => self.position() == grilla.position() }) // Encuentra la grilla actual
     }
@@ -60,21 +112,34 @@ class Selector inherits Visual{
         if (grilla != null && grilla.tienePersonaje()) {
             jugador.personaje(grilla.personajeActual)
         }
-
     }
-    //method encontrarPersonajeEnCasillaQueEstoy() = listaDePersonajes.find({personaje => self.position() ==  personaje.position()})    
-
-//NO SE SI ES RESPONSABILIDAD DEL SELECTOR O DEL EL JUGADOR//
-/*
-    method seleccionarPersonaje(unJugador) {
-    unJugador.personaje(self.encontrarPersonajeEnCasillaQueEstoy())
-    }
-
-*/
+    // codigo de los bepis (Nico y Santi)
+    */
 
 }
 
-// codigo de los bepis (Nico y Santi)
+
+
+object izquierda{ 
+	method siguiente(position) = position.left(26) 
+	method opuesto() = derecha
+}
+
+object derecha{ 
+	method siguiente(position) = position.right(26) 
+	method opuesto() = izquierda
+}
+
+object abajo{ 
+	method siguiente(position) = position.down(13) 
+	method opuesto() = arriba
+}
+
+object arriba{ 
+	method siguiente(position) = position.up(13) 
+	method opuesto() = abajo
+}
+
 
 class Grilla inherits Visual {
     //var property position
