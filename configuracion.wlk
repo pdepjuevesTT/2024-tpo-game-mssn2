@@ -50,7 +50,8 @@ object gameManager {
     jugador2.personaje().position(game.at(60,10))
     game.addVisual(jugador2.personaje())
 
-   //visualesCombate.forEach({visual => game.addVisual(visual)}) NO ANDA Y NO SE POR QUE     
+    self.posicionamientoDeHabilidades()
+    //combate.forEach({visual => game.addVisual(visual)}) NO ANDA Y NO SE POR QUE     
     
     
     game.schedule(500, {sonidoComienzoPelea.play()})
@@ -60,6 +61,9 @@ object gameManager {
   
   }
 
+method posicionamientoDeHabilidades() {
+  
+}
 
 method seleccionPersonaje() {  
 

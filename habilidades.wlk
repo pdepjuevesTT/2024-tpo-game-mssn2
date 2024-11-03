@@ -1,6 +1,6 @@
 import elementos.*
 class Habilidad{
-    var property position
+    var property position = game.at(0,0)
     var property nombre
     var property energiaQueResta 
     var property fuerzaExtra = 0
@@ -41,4 +41,4 @@ class HabilidadNoOfensiva inherits Habilidad{
     }
 }
 
-const golpeBasico = new HabilidadAtaque(energiaQueResta = 1,danioQueCausa = 0.1, nombre = "golpe normal",position = game.at(0,1)) //ejemplo
+const golpeBasico = new HabilidadAtaque(energiaQueResta = 1,danioQueCausa = 0.1, nombre = "golpe normal") //ejemplo

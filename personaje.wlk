@@ -11,7 +11,7 @@ class Personaje{
    // var property probabilidadDeCritico 
     const property image 
     var property velocidad
-    var property golpes = [golpeBasico]
+    var property habilidades = [golpeBasico]
 
     method colision(selector) {
         selector.jugador().personaje(self)
