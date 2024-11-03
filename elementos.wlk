@@ -1,6 +1,7 @@
 import configuracion.*
 import wollok.game.*
 import personaje.*
+import jugador.*
 
 
 //Visuales en general//
@@ -13,7 +14,7 @@ class Limite inherits Visual{
 
     //override method image() = "pixelNegro.png"
 
-    method colision() {
+    method colision(_selector) {
         throw new DomainException(message = "No se puede atravesar este limite")
     }
 }   
@@ -34,6 +35,8 @@ const celdaArribaDer =new Limite(image = "pixel.jpg" ,position = game.at(84,27))
 const celdaMedioDer = new Limite(image = "pixel.jpg" ,position = game.at(84,14))
 const celdaBajoDer  = new Limite(image = "pixel.jpg" ,position = game.at(84,1))
 
+const celdaLogo = new Limite(image = "pixel.jpg" ,position = game.at(32,14))
+
 /*
 en (6,1) -> personaje1
 en (6,14) -> personaje2
@@ -45,11 +48,13 @@ en(58,1)->personaje7
 en(32, 1) -> peronsaje8
 */
 
+const ivar = new Guerrero(position = game.at(6,1),vida = 500,energia = 100, fuerza = 250,image = "arqueroSelector.jpg",velocidad = 50,escudo = 50 )
+const ragnar = new Guerrero(position = game.at(6,14),vida = 500,energia = 100, fuerza = 250,image = "arqueroSelector.jpg",velocidad = 50,escudo = 50 )
 
 
 // las "const" se tratan como un objeto (representativo de los escenarios) que seran agregados o removidos conforme se cambie de menu  
 const menuSeleccion = new Visual (image=  "menuSeleccion.png")
-const escenarioCombate1 = new Visual(image = "fondoVilla.png")
+const escenarioCombate1 = new Visual(image = "fondoVillaNuevo.png")
 const escenarioCombate2 = new Visual(image = "")
 const escenarioCombate3 = new Visual(image = "")
 
@@ -60,8 +65,6 @@ class Selector inherits Visual{
     //agregar metodos de movimiento para poder seleccionar personajes 
     //const grillas = [grilla1, grilla2]
 
-    
-    
     method subir() {
     direccion = arriba
 	self.avanzar()
@@ -90,11 +93,13 @@ class Selector inherits Visual{
 		position = direccion.opuesto().siguiente(position)
     }
 
-    method colision(){} //solo por el hecho de que un selector puede colisionar con otro
+    method colision(_selector){
+         // throw new DomainException(message = "No se puede atravesar este limite") deberiamos ver si queremos que los selectores no se superpongan, aunque no funciona bien asi 
+    } //solo por el hecho de que un selector puede colisionar con otro
 
     method colisiona(elemento) {
         try{
-        elemento.colision()}
+        elemento.colision(self)}
         catch e{
             self.retrocede()
             throw e        
@@ -102,20 +107,6 @@ class Selector inherits Visual{
     }
     
     
-    /*
-    method encontrarGrillaActual() {
-        return grillas.find({ grilla => self.position() == grilla.position() }) // Encuentra la grilla actual
-    }
-
-    method seleccionarPersonaje() {
-        const grilla = self.encontrarGrillaActual()
-        if (grilla != null && grilla.tienePersonaje()) {
-            jugador.personaje(grilla.personajeActual)
-        }
-    }
-    // codigo de los bepis (Nico y Santi)
-    */
-
 }
 
 
@@ -141,30 +132,18 @@ object arriba{
 }
 
 
-class Grilla inherits Visual {
-    //var property position
-    var property personajeActual 
-    //El personaje que puede estar en esta grilla
-    //Constructor para inicializar la posición de la grilla y si contiene un personaje
-    /*
-    constructor(position, personaje = null) {
-        self.position = position
-        self.personaje = personaje
-    }
-    */
-
-    // Método para verificar si la grilla tiene un personaje
-    method tienePersonaje() = personajeActual != null
+object paleta{
+    const property blanco = "FFFFFFFF"   
+    const property negro = "000000FF"    
+    const property rojo = "FF0000FF"     
+    const property verde = "00FF00FF"    
+    const property amarillo = "FFFF00FF" 
 }
 
-const grilla1 = new Grilla(position = game.at(1,1), image = "fotoStan", personajeActual = stan)
-const grilla2 = new Grilla(position = game.at(30,30), image = "fotoCarman", personajeActual = carman)
-
-// codigo de los bepis (Nico y Santi)
 
 
-const selector1 = new Selector(position = game.at(6,1) ,image = "selectorAzul.png", jugador = 1)
-const selector2 = new Selector(position = game.at(58, 1), image = "selectorVerde.png", jugador = 2)
+const selector1 = new Selector(position = game.at(6,1) ,image = "selectorAzul.png", jugador = jugador1)
+const selector2 = new Selector(position = game.at(58, 1), image = "selectorVerde.png", jugador = jugador2)
 
 
 
