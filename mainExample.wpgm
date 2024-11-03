@@ -13,8 +13,6 @@ program juego {
 
 	gameManager.configuracionDeDesplazamiento()
 	
-	gameManager.configuracionCambioDeMenu()
-
 	gameManager.menuIncio()
 
 	gameManager.comenzarJuego()
