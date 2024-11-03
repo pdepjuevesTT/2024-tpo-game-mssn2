@@ -25,7 +25,7 @@ object combate {
 
 
     method ordenarListaSegunVelocidadDeAtaque() {
-        listaPersonajesOrdenada = listaDePersonajes.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
+       // listaPersonajesOrdenada = listaDePersonajes.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
     }
 
 
