@@ -1,4 +1,7 @@
+import elementos.*
 class Habilidad{
+    var property position
+    var property nombre
     var property energiaQueResta 
     var property fuerzaExtra = 0
     var property velocidadExtra = 0
@@ -7,6 +10,7 @@ class Habilidad{
             self.efectoHabilidad(atacante,rival)
         }
     }
+    method text() = nombre
     method efectoHabilidad(atacante,rival){
         atacante.energia(atacante.energia() - energiaQueResta) 
     }
@@ -37,4 +41,4 @@ class HabilidadNoOfensiva inherits Habilidad{
     }
 }
 
-const golpeBasico1 = new HabilidadAtaque(energiaQueResta = 1,danioQueCausa = 0.1)
+const golpeBasico = new HabilidadAtaque(energiaQueResta = 1,danioQueCausa = 0.1, nombre = "golpe normal",position = game.at(0,1)) //ejemplo
