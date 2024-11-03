@@ -17,35 +17,41 @@ object gameManager {
   const property sonidoFondo = game.sound(sounds.backGround())
   const property sonidoComienzoPelea = game.sound(sounds.round1())
   const property sonidoFondoCombate = game.sound(sounds.fondoCombate()) 
+  
   const escenariosCombate = [escenarioCombate1] //falta agregar los otros, logica implementada
+
+  const property visualesInicio = 
+    [menuSeleccion ,selector1, selector2,celdaBajo1,celdaBajo2,celdaBajo3, 
+    celdaArribaIzq,celdaBajoIzq ,celdaMedioIzq,celdaArriba1,celdaArriba2,celdaArriba3, 
+    celdaArribaDer, celdaMedioDer , celdaBajoDer ,celdaLogo, ivar , ragnar
+    ] //mas todos los personajes aun no creados 
+  const property visualesCombate = [jugador1.personaje(),jugador2.personaje()]
 
 
   method menuIncio() {
 
-    game.addVisual(menuSeleccion)
-    game.addVisual(selector1)
-    game.addVisual(selector2)
-
-    self.agregarVisualesDeLimites()
-
+    visualesInicio.forEach({visual => game.addVisual(visual)})
 
 
     game.schedule(500,{sonidoFondo.play()})
     sonidoFondo.shouldLoop(true)
 
-  //game.addVisualCharacter(pixel)
-
-   //self.cargarLimites()
-
   }
 
   method menuCombate() {
 
-    game.removeVisual(menuSeleccion)
+    visualesInicio.forEach({visual => game.removeVisual(visual)})
 
     game.addVisual(escenariosCombate.anyOne())
 
-    //self.seleccionPersonaje()
+    jugador1.personaje().position(game.at(14,10))
+    game.addVisual(jugador1.personaje())
+
+    jugador2.personaje().position(game.at(60,10))
+    game.addVisual(jugador2.personaje())
+
+   //visualesCombate.forEach({visual => game.addVisual(visual)}) NO ANDA Y NO SE POR QUE     
+    
     
     game.schedule(500, {sonidoComienzoPelea.play()})
     game.schedule(4000, {sonidoFondoCombate.play()})
@@ -54,99 +60,11 @@ object gameManager {
   
   }
 
-  method agregarVisualesDeLimites() {
-    game.addVisual(celdaBajo1)
-    game.addVisual(celdaBajo2)
-    game.addVisual(celdaBajo3)
 
+method seleccionPersonaje() {  
 
-    game.addVisual(celdaArribaIzq)
-    game.addVisual(celdaBajoIzq)
-    game.addVisual(celdaMedioIzq)
-  
+    self.cambioDeMenu()
 
-    game.addVisual(celdaArriba1)
-    game.addVisual(celdaArriba2)
-    game.addVisual(celdaArriba3)
-
-
-  game.addVisual(celdaArribaDer)
-  game.addVisual(celdaMedioDer)
-  game.addVisual(celdaBajoDer)
-
-    
-  }
-
-/*
-  method cargarLimites() {
-    const ancho = game.width() - 6
-    const largo = game.width() - 5
-    const limites =[]
-
-    (0 .. ancho).forEach(
-			{ n => limites.add(new Position(x = n, y = 0)) }
-		) // bordeAbajo
-		
-		(0 .. ancho).forEach(
-			{ n => limites.add(new Position(x = n, y = largo)) }
-		) // bordeArriba 
-		
-		(0 .. largo).forEach(
-			{ n => limites.add(new Position(x = 0, y = n)) }
-		) // bordeIzq 
-		
-		(0 .. largo).forEach(
-			{ n => limites.add(new Position(x = ancho, y = n)) }
-		) // bordeDer
-    
-    limites.addAll(
-      [
-
-      ]
-    )
-
-
-    limites.forEach({posicion => game.addVisual(new Limite(position = posicion))})
-
-  }
-*/
-
-
-//hardcodeado
-method seleccionPersonaje() {
-  
-  //JUGADOR 1
-  game.addVisual(stan)
-  //game.addVisual(golpeBasico1)
-  //game.showAttributes(golpeBasico1)
-
- // game.addVisual(golpeBasico2)
-  //game.showAttributes(golpeBasico2)
-
-
- // game.addVisual(noOfensiva)
-  //game.showAttributes(noOfensivaa)
-
-
-  game.addVisual(ulti)
-  game.showAttributes(ulti)
-
-
-
-  //JUGADOR2
-  game.addVisual(carman)
-
-  //game.addVisual(golpeBasicoo1)
-  //game.showAttributes(golpeBasicoo1)
-
-  //game.addVisual(golpeBasicoo2)
-  //game.showAttributes(golpeBasicoo2)
-
-  //game.addVisual(noOfensivaa)
-  //game.showAttributes(noOfensivaa)
-
-  game.addVisual(ultii)
-  game.showAttributes(ultii)
 
 }
 
@@ -166,42 +84,49 @@ method seleccionPersonaje() {
     keyboard.num3().onPressDo({sonidoFondo.volume(1)})
   }
 
-  method configuracionCambioDeMenu() {
-    keyboard.n().onPressDo({
-                              sonidoFondo.stop()
-                              self.menuCombate()})
+  method cambioDeMenu() {
+  sonidoFondo.stop()
+  self.menuCombate()
+  }
+
+/*
     keyboard.l().onPressDo({     
                               sonidoFondoCombate.stop()
                               sonidoComienzoPelea.stop()
                               self.menuIncio()})
-  }
+*/
 
 method configuracionDeDesplazamiento() {
 
+//desplazamiento J1
   keyboard.left().onPressDo({selector1.irIzquierda()})
   keyboard.right().onPressDo({selector1.irDerecha()})
   keyboard.up().onPressDo({selector1.subir()})
   keyboard.down().onPressDo({selector1.bajar()})
-  keyboard.enter().onPressDo({selector1.seleccionarPersonaje(jugador1)})
 
   //COMBATE J1
-  keyboard.q().onPressDo({jugador1.atacaA(jugador2) , habilidadBasica1}) // y asi 
+  //keyboard.q().onPressDo({jugador1.atacaA(jugador2) , habilidadBasica1}) // y asi 
   keyboard.e().onPressDo({})
   keyboard.r().onPressDo({})
   keyboard.t().onPressDo({})
 
 
+//desplazamiento J2
   keyboard.w().onPressDo({selector2.subir()})
   keyboard.s().onPressDo({selector2.bajar()})
   keyboard.a().onPressDo({selector2.irIzquierda()})
   keyboard.d().onPressDo({selector2.irDerecha()})
-  keyboard.space().onPressDo({selector2.seleccionarPersonaje(jugador2)})
 
   //COMBATE J2
   keyboard.z().onPressDo({})
   keyboard.x().onPressDo({})
   keyboard.c().onPressDo({})
   keyboard.v().onPressDo({})
+
+//Seleccion personaje 
+  keyboard.enter().onPressDo({self.seleccionPersonaje()})
+
+
 
   game.whenCollideDo(selector1, {elemento => selector1.colisiona(elemento)})
   game.whenCollideDo(selector2, {elemento => selector2.colisiona(elemento)})
