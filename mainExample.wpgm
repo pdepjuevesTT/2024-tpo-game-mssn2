@@ -17,8 +17,13 @@ program juego {
 
 	gameManager.comenzarJuego()
 
-
-
 }
+
+
+/*
+COSAS QUE RESTAN VER:
+
+
+*/
 
 

@@ -1,3 +1,4 @@
+import habilidades.*
 import personaje.*
 import elementos.*
 import wollok.game.*
@@ -38,38 +39,47 @@ object gameManager {
 
   }
 
-  method menuCombate() {
+  method menuCombate(personaje1,personaje2) {
 
     visualesInicio.forEach({visual => game.removeVisual(visual)})
 
     game.addVisual(escenariosCombate.anyOne())
 
-    jugador1.personaje().position(game.at(14,10))
-    game.addVisual(jugador1.personaje())
-
-    jugador2.personaje().position(game.at(60,10))
-    game.addVisual(jugador2.personaje())
-
-    self.posicionamientoDeHabilidades()
-    //combate.forEach({visual => game.addVisual(visual)}) NO ANDA Y NO SE POR QUE     
+    personaje1.position(game.at(14,10))
+    game.addVisual(personaje1)
     
-    
+    personaje2.position(game.at(60,10))
+    game.addVisual(personaje2)
+  //combate.forEach({visual => game.addVisual(visual)}) NO ANDA Y NO SE POR QUE     
+
+    self.configuracionHabilidades(personaje1.habilidades(), personaje2.habilidades())
+
     game.schedule(500, {sonidoComienzoPelea.play()})
     game.schedule(4000, {sonidoFondoCombate.play()})
     sonidoFondoCombate.shouldLoop(true)
 
+    combate.listaPersonajesOrdenada([personaje1, personaje2])
+    combate.ordenarListaSegunVelocidadDeAtaque()
+
+    game.onTick(5000, "Pelear", {combate.pelea()})
+  
   
   }
 
-method posicionamientoDeHabilidades() {
+method configuracionHabilidades(personaje1,personaje2) {
   
+  personaje1.inicializarHabilidades(game.at(3,5) ,game.at(3,4), game.at(3,3) , game.at(3,2))  
+  personaje2.inicializarHabilidades(game.at(26,5) ,game.at(26,4), game.at(26,3) , game.at(26,2) )
+
+  //chequear no aparece el visual
+  personaje1.habilidades().forEach({texto => game.addVisual(texto)})
+  personaje2.habilidades().forEach({texto => game.addVisual(texto)})
+
 }
+//Chequear porque no aparec
 
 method seleccionPersonaje() {  
-
     self.cambioDeMenu()
-
-
 }
 
   method configuracionIncialTablero() {
@@ -90,7 +100,7 @@ method seleccionPersonaje() {
 
   method cambioDeMenu() {
   sonidoFondo.stop()
-  self.menuCombate()
+  self.menuCombate(jugador1.personaje(),jugador2.personaje())
   }
 
 /*
@@ -109,10 +119,10 @@ method configuracionDeDesplazamiento() {
   keyboard.down().onPressDo({selector1.bajar()})
 
   //COMBATE J1
-  //keyboard.q().onPressDo({jugador1.atacaA(jugador2) , habilidadBasica1}) // y asi 
-  keyboard.e().onPressDo({})
-  keyboard.r().onPressDo({})
-  keyboard.t().onPressDo({})
+  keyboard.q().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(0))}) 
+  keyboard.e().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(1))})
+  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(2))})
+  keyboard.t().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(3))})
 
 
 //desplazamiento J2
@@ -122,10 +132,10 @@ method configuracionDeDesplazamiento() {
   keyboard.d().onPressDo({selector2.irDerecha()})
 
   //COMBATE J2
-  keyboard.z().onPressDo({})
-  keyboard.x().onPressDo({})
-  keyboard.c().onPressDo({})
-  keyboard.v().onPressDo({})
+  keyboard.z().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(0))})
+  keyboard.x().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(1))})
+  keyboard.c().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(2))})
+  keyboard.v().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(3))})
 
 //Seleccion personaje 
   keyboard.enter().onPressDo({self.seleccionPersonaje()})
@@ -145,14 +155,4 @@ method configuracionDeDesplazamiento() {
   method comenzarJuego() {
     game.start()
   }
-}
-
-
-object sistemaDeTurnos {
-  var property jugador1 = null
-  var property jugador2 = null 
-  
-
- // method verificarReglaInicioPelea(unPersonaje , otroPersonaje) = 
-    //if()
 }

@@ -6,12 +6,6 @@ import personaje.*
 
 class Jugador{
     var property personaje = null
-
-    method atacaA(jugador) {
-        //hay que relacionarlo con los ataques de los personajes que lo jugadores tienen 
-      
-    }
-
 }
 
 const jugador1 = new Jugador()
@@ -25,29 +19,45 @@ object combate {
 
 
     method ordenarListaSegunVelocidadDeAtaque() {
-       // listaPersonajesOrdenada = listaDePersonajes.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
+    listaPersonajesOrdenada = listaPersonajesOrdenada.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
     }
 
 
-    //keyBoard.presionaTecla1 y presionaTecla2 pelea(hablidadP1,habilidadP2)
     method pelea() {
-        if(listaPersonajesOrdenada.all({jugador => jugador.vida() > 0})){
-            listaPersonajesOrdenada.fold(null, {jugador => jugador.atacarAlResto()})
-            self.ordenarListaSegunVelocidadDeAtaque()         
-            //self.pelea()
-        }
-        else
-        self.terminarBatalla()
+        if (listaPersonajesOrdenada.all({jugador => jugador.preparado()})){
+            if(listaPersonajesOrdenada.all({personaje => personaje.vida() > 0})){
+                listaPersonajesOrdenada.forEach({personaje => personaje.atacarAlResto(listaPersonajesOrdenada.remove(personaje),personaje.habilidadQueVaUsar())})
+                self.resetDeAtributosPostPelea(listaPersonajesOrdenada)
+            }
+            else{
+                self.terminarBatalla()
+            }
     }
+}
 
-    method terminarBatalla() {
+    method terminarBatalla(){
         ganador = 
-        if(listaPersonajesOrdenada.all({jugador => jugador.vida() <= 0})) listaPersonajesOrdenada.first()
+            if(listaPersonajesOrdenada.all({jugador => jugador.vida() <= 0})) listaPersonajesOrdenada.first()
 
-        else listaPersonajesOrdenada.filter({personaje =>  personaje.vida() > 0}).max({personaje => personaje.vida()})
+            else listaPersonajesOrdenada.filter({personaje =>  personaje.vida() > 0}).max({personaje => personaje.vida()})
+
+        
+        
+        game.addVisual(ganadorPelea)
+        gameManager.cerrarJuego()
         }
+    
+    method resetDeAtributosPostPelea(listaPersonajes) {
+        self.ordenarListaSegunVelocidadDeAtaque()
+        listaPersonajes.forEach({personaje => personaje.preparado(false)})
+        listaPersonajes.forEach({personaje => personaje.energia(personaje.energia() + 10)})
+    }
 }
 
 
 
+object ganadorPelea{
+    var property nombre = combate.ganador().nombre()
     
+    method text() = nombre
+}

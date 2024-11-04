@@ -48,8 +48,8 @@ en(58,1)->personaje7
 en(32, 1) -> peronsaje8
 */
 
-const ivar = new Guerrero(position = game.at(6,1),vida = 500,energia = 100, fuerza = 250,image = "arqueroSelector.jpg",velocidad = 50,escudo = 50 )
-const ragnar = new Guerrero(position = game.at(6,14),vida = 500,energia = 100, fuerza = 250,image = "arqueroSelector.jpg",velocidad = 50,escudo = 50 )
+const ivar = new Guerrero(position = game.at(6,1),vida = 500,energia = 100, fuerza = 250,image = "arqueroSelector.jpg",velocidad = 50,escudo = 50 , nombre = "ivar" )
+const ragnar = new Guerrero(position = game.at(6,14),vida = 500,energia = 100, fuerza = 250,image = "arqueroSelector.jpg",velocidad = 50,escudo = 50, nombre="ragnar" )
 
 
 // las "const" se tratan como un objeto (representativo de los escenarios) que seran agregados o removidos conforme se cambie de menu  
@@ -160,6 +160,7 @@ const ultii         = new Visual(position = game.at(45,10) ,  image = "ultiDimen
 
 //Barras en el menu de combate//
 class BarraGeneral{
+
 }
 
 class BarraVida inherits BarraGeneral{}
