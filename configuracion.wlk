@@ -26,7 +26,7 @@ object gameManager {
     celdaArribaIzq,celdaBajoIzq ,celdaMedioIzq,celdaArriba1,celdaArriba2,celdaArriba3, 
     celdaArribaDer, celdaMedioDer , celdaBajoDer ,celdaLogo, ivar , ragnar
     ] //mas todos los personajes aun no creados 
-  const property visualesCombate = [jugador1.personaje(),jugador2.personaje()]
+  const property personajesCombate = []
 
 
   method menuIncio() {
@@ -39,26 +39,25 @@ object gameManager {
 
   }
 
-  method menuCombate(personaje1,personaje2) {
+  method menuCombate() {
 
     visualesInicio.forEach({visual => game.removeVisual(visual)})
 
     game.addVisual(escenariosCombate.anyOne())
 
-    personaje1.position(game.at(14,10))
-    game.addVisual(personaje1)
-    
-    personaje2.position(game.at(60,10))
-    game.addVisual(personaje2)
-  //combate.forEach({visual => game.addVisual(visual)}) NO ANDA Y NO SE POR QUE     
+    personajesCombate.first().position(game.at(14,10))
+    personajesCombate.last().position(game.at(60,10))
 
-    self.configuracionHabilidades(personaje1.habilidades(), personaje2.habilidades())
+    personajesCombate.forEach({personaje => personaje.cambiarImagenBatalla() 
+                                          game.addVisual(personaje)})  
+
+    self.configuracionHabilidades(personajesCombate)
 
     game.schedule(500, {sonidoComienzoPelea.play()})
     game.schedule(4000, {sonidoFondoCombate.play()})
     sonidoFondoCombate.shouldLoop(true)
 
-    combate.listaPersonajesOrdenada([personaje1, personaje2])
+    combate.listaPersonajesOrdenada(personajesCombate)
     combate.ordenarListaSegunVelocidadDeAtaque()
 
     game.onTick(5000, "Pelear", {combate.pelea()})
@@ -66,17 +65,15 @@ object gameManager {
   
   }
 
-method configuracionHabilidades(personaje1,personaje2) {
+method configuracionHabilidades(listaPersonajes) {
   
-  personaje1.inicializarHabilidades(game.at(3,5) ,game.at(3,4), game.at(3,3) , game.at(3,2))  
-  personaje2.inicializarHabilidades(game.at(26,5) ,game.at(26,4), game.at(26,3) , game.at(26,2) )
+  listaPersonajes.get(0).inicializarHabilidades(game.at(4,5) ,game.at(14,5), game.at(25,5) , game.at(35,5))  
+  listaPersonajes.get(1).inicializarHabilidades(game.at(50,5) ,game.at(61,5), game.at(71,5) , game.at(81,5))
 
-  //chequear no aparece el visual
-  personaje1.habilidades().forEach({texto => game.addVisual(texto)})
-  personaje2.habilidades().forEach({texto => game.addVisual(texto)})
+  listaPersonajes.forEach({personaje => personaje.habilidades().forEach({texto => game.addVisual(texto)})})
+  letrasCombate.forEach({text => game.addVisual(text)})
 
-}
-//Chequear porque no aparec
+} 
 
 method seleccionPersonaje() {  
     self.cambioDeMenu()
@@ -100,15 +97,9 @@ method seleccionPersonaje() {
 
   method cambioDeMenu() {
   sonidoFondo.stop()
-  self.menuCombate(jugador1.personaje(),jugador2.personaje())
+  personajesCombate.addAll([jugador1.personaje(),jugador2.personaje()])
+  self.menuCombate()
   }
-
-/*
-    keyboard.l().onPressDo({     
-                              sonidoFondoCombate.stop()
-                              sonidoComienzoPelea.stop()
-                              self.menuIncio()})
-*/
 
 method configuracionDeDesplazamiento() {
 
@@ -146,8 +137,6 @@ method configuracionDeDesplazamiento() {
   game.whenCollideDo(selector2, {elemento => selector2.colisiona(elemento)})
 
 }
-
-//ACCION DE COMENZAR O CERRAR EL JUEGO//
   method cerrarJuego(){
   game.stop()
   }

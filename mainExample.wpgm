@@ -16,14 +16,13 @@ program juego {
 	gameManager.menuIncio()
 
 	gameManager.comenzarJuego()
-
 }
 
 
 /*
 COSAS QUE RESTAN VER:
-
-
+2- Ver la utilidad de magia, Municion y demas
+3-Logica de barras de vida y visuales 
 */
 
 

@@ -1,3 +1,4 @@
+// jugador.wlk
 import configuracion.*
 import elementos.*
 import personaje.*
@@ -40,10 +41,9 @@ object combate {
             if(listaPersonajesOrdenada.all({jugador => jugador.vida() <= 0})) listaPersonajesOrdenada.first()
 
             else listaPersonajesOrdenada.filter({personaje =>  personaje.vida() > 0}).max({personaje => personaje.vida()})
-
-        
         
         game.addVisual(ganadorPelea)
+
         gameManager.cerrarJuego()
         }
     
@@ -57,7 +57,5 @@ object combate {
 
 
 object ganadorPelea{
-    var property nombre = combate.ganador().nombre()
-    
-    method text() = nombre
+    method text() = combate.ganador().nombre()
 }

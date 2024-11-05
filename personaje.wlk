@@ -2,25 +2,36 @@ import wollok.game.*
 import configuracion.*
 import habilidades.*
 
-//const listaDePersonajes = [stan, carman]
 class Personaje{
     var property position = game.origin()
     var property vida 
     var property energia 
     var property fuerza
     var property preparado = false
-    var property habilidadQueVaUsar
+    var property habilidadQueVaUsar = null
    // var property probabilidadDeCritico 
-    const property image 
+    var property imagenSelector 
+    var property imagenBatalla 
+    var property imagenAtaque
+    var property image = imagenSelector
     var property velocidad
     var property habilidades = []
+    var property nombre  
+
+    method cambiarImagenBatalla() {
+      image = imagenBatalla
+    }
+
+    method cambiarImagenAtaque() {
+      image = imagenAtaque
+    }
 
     method colision(selector) {
         selector.jugador().personaje(self)
     }
 
     method restarVida(numero) {
-      vida = vida - numero
+    vida = vida - numero
     }
 
     method puedeUsarHabilidad(habilidad) = self.energia() >= habilidad.energiaQueResta()
@@ -67,7 +78,7 @@ class Guerrero inherits Personaje{
     const golpe2 = new GolpeGuerrero(position =posicion2)
     const habilidad3 = new PotenciarGuerrero(position =posicion3)
     const ulti = new UltiGuerrero(position =posicion4)
-    habilidades.add(golpe2,habilidad3,ulti)
+    habilidades.addAll([golpe2,habilidad3,ulti])
     }
 }
 
@@ -79,7 +90,7 @@ class Mago inherits Personaje {
     const golpe2 = new GolpeMago(position =posicion2)
     const habilidad3 = new CuraMagica(position =posicion3)
     const ulti = new UltiMago(position =posicion4)
-    habilidades.add(golpe2,habilidad3,ulti)
+    habilidades.addAll([golpe2,habilidad3,ulti])
     }
 }
 
@@ -91,12 +102,11 @@ class Arquero inherits  Personaje{
     const golpe2 = new GolpeArquero(position =posicion2)
     const habilidad3 = new RecuperacionArquero(position =posicion3)
     const ulti = new UltiArquero(position =posicion4)
-    habilidades.add(golpe2,habilidad3,ulti)
+    habilidades.addAll([golpe2,habilidad3,ulti])
     }   
 
 }
 
-//el asesino eleva mucho el porcentaje de critico 
 class Asesino inherits Personaje{
 
     override method inicializarHabilidades(posicion1,posicion2,posicion3,posicion4) {
@@ -104,7 +114,7 @@ class Asesino inherits Personaje{
     const golpe2 = new GolpeAsesino(position = posicion2)
     const habilidad3 = new MejoraAsesino(position = posicion3)
     const ulti = new UltiAsesino(position = posicion4)
-    habilidades.add(golpe2,habilidad3,ulti)
+    habilidades.addAll([golpe2,habilidad3,ulti])
     }      
 }
 
