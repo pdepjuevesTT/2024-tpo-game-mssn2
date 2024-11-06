@@ -37,23 +37,17 @@ const celdaBajoDer  = new Limite(image = "pixel.jpg" ,position = game.at(84,1))
 
 const celdaLogo = new Limite(image = "pixel.jpg" ,position = game.at(32,14))
 
-/*
-en (6,1) -> personaje1
-en (6,14) -> personaje2
-en (6,27) -> personaje3
-en (32,27) -> personaje4
-en(58,27) -> personaje5
-en(58,14) -> personaje6
-en(58,1)->personaje7
-en(32, 1) -> peronsaje8
-*/
 
+const ivar = new Guerrero(position = game.at(6,1),vida = 550,energia = 100, fuerza = 250,imagenSelector = "ivarInicio.png",velocidad = 51,escudo = 50 , nombre = "ivar" )
+const ragnar = new Guerrero(position = game.at(6,14),vida = 600,energia = 100, fuerza = 200,imagenSelector = "ragnarInicio2.png",velocidad = 50,escudo = 100, nombre="ragnar" )
+const legolas = new Arquero(position = game.at(6,27),vida = 250, energia = 150, fuerza = 125, imagenSelector = "legolasInicio.png",velocidad = 81, nombre = "legolas")
+const dibu = new Arquero(position = game.at(58,1),vida = 300, energia = 150, fuerza = 100, imagenSelector = "dibuInicio.png",velocidad = 80, nombre = "dibu")
+const harry = new Mago(position = game.at(32,27),vida = 450, energia = 200, fuerza = 300, imagenSelector = "harryInicial.png", velocidad = 76, nombre = "harry", magia = 100)
+const ron = new Mago(position = game.at(58,27),vida = 400, energia = 200, fuerza = 350, imagenSelector = "ronInicial.png", velocidad = 75, nombre = "ron", magia = 80)
+const ezio = new Asesino(position = game.at(58,14),vida = 500, energia = 175, fuerza = 150, imagenSelector = "ezioInicio", velocidad = 1, nombre = "ezio",potenciaDeVelocidad = 100)
+const desmond = new Asesino(position = game.at(32,1),vida = 475, energia = 175, fuerza = 175, imagenSelector = "desmondInicio", velocidad = 1, nombre = "desmond", potenciaDeVelocidad = 110)
 
-const ivar = new Guerrero(position = game.at(6,1),vida = 500,energia = 100, fuerza = 250,imagenSelector = "arqueroSelector.jpg",imagenBatalla = "arqueroSelector.jpg",imagenAtaque = "arqueroSelector.jpg",velocidad = 50,escudo = 50 , nombre = "ivar" )
-const ragnar = new Guerrero(position = game.at(6,14),vida = 500,energia = 100, fuerza = 250,imagenSelector = "arqueroSelector.jpg",imagenBatalla = "arqueroSelector.jpg",imagenAtaque = "arqueroSelector.jpg",velocidad = 50,escudo = 50, nombre="ragnar" )
-
-
-const menuSeleccion = new Visual (image=  "menuSeleccion.png")
+const menuSeleccion = new Visual (image =  "menuSeleccion.png")
 const escenarioCombate1 = new Visual(image = "fondoVillaNuevo.png")
 const escenarioCombate2 = new Visual(image = "")
 const escenarioCombate3 = new Visual(image = "")
@@ -194,7 +188,7 @@ class BarraGeneral inherits Visual{
     method actualizarBarra(parametro) {
         porcentajeActual = (parametro / parametroTotal) * 100
         const estNuevo = estados.find({estado => estado.estaEnRango(porcentajeActual)})
-        self.cambiarImagen(estNuevo)
+        self.cambiarImagen(estNuevo.image())
     }
 
     method inicializarEstado() {
