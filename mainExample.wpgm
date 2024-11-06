@@ -1,5 +1,5 @@
 import wollok.game.*
-
+import jugador.*
 import personaje.*
 import configuracion.*
 import elementos.*
@@ -16,13 +16,18 @@ program juego {
 	gameManager.menuIncio()
 
 	gameManager.comenzarJuego()
+	
 }
 
 
 /*
 COSAS QUE RESTAN VER:
-2- Ver la utilidad de magia, Municion y demas
-3-Logica de barras de vida y visuales 
+la logica ya deberia estar todo, pero hay cosas que no funcionan, la pelea no cambia al gif 
+no cambia la barra de vida o energia, no se si agregar una tercer barra 
+ya hice que todos los tipos de personajes tengan algo unico 
+
+
 */
+
 
 
