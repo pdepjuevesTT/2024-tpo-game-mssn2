@@ -15,7 +15,7 @@ const jugador2 = new Jugador()
 
 
 object combate {
-    var property listaPersonajesOrdenada = null
+    var property listaPersonajesOrdenada = []
     var property ganador = null 
 
 
@@ -25,12 +25,12 @@ object combate {
 
 
     method pelea() {
-        if (listaPersonajesOrdenada.all({jugador => jugador.preparado()})){
-            if(listaPersonajesOrdenada.all({personaje => personaje.vida() > 0})){
-                listaPersonajesOrdenada.forEach({personaje => personaje.atacarAlResto(listaPersonajesOrdenada.remove(personaje),personaje.habilidadQueVaUsar())})
+        if(listaPersonajesOrdenada.all({personaje => personaje.vida() > 0})){
+             if (listaPersonajesOrdenada.all({jugador => jugador.preparado()})){
+                listaPersonajesOrdenada.forEach({personaje => personaje.atacarAlResto(listaPersonajesOrdenada.remove(personaje))})
                 self.resetDeAtributosPostPelea(listaPersonajesOrdenada)
             }
-            else{
+        else{
                 self.terminarBatalla()
             }
     }
