@@ -24,8 +24,8 @@ object gameManager {
   const property visualesInicio = 
     [menuSeleccion ,selector1, selector2,celdaBajo1,celdaBajo2,celdaBajo3, 
     celdaArribaIzq,celdaBajoIzq ,celdaMedioIzq,celdaArriba1,celdaArriba2,celdaArriba3, 
-    celdaArribaDer, celdaMedioDer , celdaBajoDer ,celdaLogo, ivar , ragnar
-    ] //mas todos los personajes aun no creados 
+    celdaArribaDer, celdaMedioDer , celdaBajoDer ,celdaLogo, ivar , ragnar,dibu,legolas,ron,harry,ezio,desmond
+    ]
   const property personajesCombate = []
 
 
@@ -45,10 +45,15 @@ object gameManager {
 
     game.addVisual(escenariosCombate.anyOne())
 
-    personajesCombate.first().position(game.at(14,10))
-    personajesCombate.last().position(game.at(60,10))
+    personajesCombate.first().position(game.at(14,6))
+    personajesCombate.first().inicializarPersonaje("Derecha")
+    personajesCombate.first().inicializarBarras(game.at(0,35),game.at(16,35),1)
+    //personajesCombate.first().barras().forEach({barra => game.addVisual(barra)})
+    personajesCombate.first().inicializarBarras(game.at(49,35),game.at(65,35),1)
+    personajesCombate.last().position(game.at(60,6))
+    personajesCombate.last().inicializarPersonaje("Izquierda")
 
-    personajesCombate.forEach({personaje => personaje.cambiarImagenBatalla() 
+    personajesCombate.forEach({personaje => personaje.cambiarImagen(personaje.imagenBatalla()) 
                                           game.addVisual(personaje)})  
 
     self.configuracionHabilidades(personajesCombate)
@@ -110,10 +115,10 @@ method configuracionDeDesplazamiento() {
   keyboard.down().onPressDo({selector1.bajar()})
 
   //COMBATE J1
-  keyboard.q().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(0))}) 
-  keyboard.e().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(1))})
-  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(2))})
-  keyboard.t().onPressDo({jugador1.personaje().listoParaPelear(jugador1.habilidades().get(3))})
+  keyboard.q().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(0))}) 
+  keyboard.e().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(1))})
+  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personajes().habilidades().get(2))})
+  keyboard.t().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(3))})
 
 
 //desplazamiento J2
@@ -123,10 +128,10 @@ method configuracionDeDesplazamiento() {
   keyboard.d().onPressDo({selector2.irDerecha()})
 
   //COMBATE J2
-  keyboard.z().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(0))})
-  keyboard.x().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(1))})
-  keyboard.c().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(2))})
-  keyboard.v().onPressDo({jugador2.personaje().listoParaPelear(jugador1.habilidades().get(3))})
+  keyboard.z().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(0))})
+  keyboard.x().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(1))})
+  keyboard.c().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(2))})
+  keyboard.v().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personjae().habilidades().get(3))})
 
 //Seleccion personaje 
   keyboard.enter().onPressDo({self.seleccionPersonaje()})
