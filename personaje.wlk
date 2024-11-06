@@ -1,6 +1,7 @@
 import wollok.game.*
 import configuracion.*
 import habilidades.*
+import elementos.*
 
 class Personaje{
     var property position = game.origin()
@@ -11,19 +12,18 @@ class Personaje{
     var property habilidadQueVaUsar = null
    // var property probabilidadDeCritico 
     var property imagenSelector 
-    var property imagenBatalla 
-    var property imagenAtaque
+    var property imagenBatalla = null
+    var property imagenAtaque = null
     var property image = imagenSelector
     var property velocidad
     var property habilidades = []
     var property nombre  
+    //const property barras = []
+    var property barraVida = null
+    var property barraEnergia = null
 
-    method cambiarImagenBatalla() {
-      image = imagenBatalla
-    }
-
-    method cambiarImagenAtaque() {
-      image = imagenAtaque
+    method cambiarImagen(nuevaImagen) {
+      image = nuevaImagen
     }
 
     method colision(selector) {
@@ -50,12 +50,33 @@ class Personaje{
                 game.say(self, "No tengo energia suficiente. Elegir otra habilidad.")
             }  
         }
-    method atacarAlResto(otrosJugadores,habilidad){
-        if(habilidad.danioQueCausa() != 0 ){ //se distingue si es una habilidad ofensiva o no 
-        otrosJugadores.forEach({enemigo => habilidad.usarHabilidad(self, enemigo)})}
+    method atacarAlResto(otrosJugadores){
+        if(habilidadQueVaUsar.danioQueCausa() != 0 ){ //se distingue si es una habilidad ofensiva o no 
+        otrosJugadores.forEach({enemigo => habilidadQueVaUsar.usarHabilidad(self, enemigo)})}
         else {
-            habilidad.usarHabilidad(self,null)
+            habilidadQueVaUsar.usarHabilidad(self,null)
         }
+    }
+
+    method inicializarPersonaje(direccion) {
+      imagenBatalla = nombre + "2" + direccion + ".png"
+      imagenAtaque = nombre + "Atacando" + direccion + ".gif"
+    }
+
+    method inicializarBarras(posicionBarraVida,posicionBarraEnergia,posicionBarraExtra) {
+      barraVida = new BarraVida(position = posicionBarraVida,image = "barraVida16.png",parametroTotal = self.vida())
+      barraEnergia = new BarraVida(position = posicionBarraEnergia,image = "barraEnergia16.png",parametroTotal = self.energia())
+      /*
+      barras.addAll([barraVida,BarraEnergia])
+      barras.forEach({barra => barra.addVisual(barra)})
+      */
+      game.addVisual(barraVida)
+      game.addVisual(barraEnergia)
+    }
+
+    method actualizarBarras() {
+      barraVida.actualizarBarra(self.vida())
+      barraEnergia.actualizarBarra(self.energia())
     }
 
 }
@@ -80,10 +101,18 @@ class Guerrero inherits Personaje{
     const ulti = new UltiGuerrero(position =posicion4)
     habilidades.addAll([golpe2,habilidad3,ulti])
     }
+    
 }
 
 class Mago inherits Personaje {
     var property magia 
+
+    override method fuerza() = fuerza + magia 
+
+    override  method atacarAlResto(otrosJugadores){
+        super(otrosJugadores)
+        magia = (magia - 10).max(0)
+    }
 
     override method inicializarHabilidades(posicion1,posicion2,posicion3,posicion4) {
     super(posicion1,posicion2,posicion3,posicion4)
@@ -95,7 +124,9 @@ class Mago inherits Personaje {
 }
 
 class Arquero inherits  Personaje{
-    var property municion
+    var property municion = [1,1,1,1,3,4,2,2,1,1,1,1,1,1,1,1,2,2]
+
+    override method fuerza() = fuerza * municion.anyOne()
 
     override method inicializarHabilidades(posicion1,posicion2,posicion3,posicion4) {
     super(posicion1,posicion2,posicion3,posicion4)
@@ -108,6 +139,14 @@ class Arquero inherits  Personaje{
 }
 
 class Asesino inherits Personaje{
+    var property potenciaDeVelocidad
+
+    override method velocidad() = velocidad * potenciaDeVelocidad
+
+    override  method atacarAlResto(otrosJugadores){
+        super(otrosJugadores)
+        potenciaDeVelocidad = (potenciaDeVelocidad - 10).max(1)
+    }
 
     override method inicializarHabilidades(posicion1,posicion2,posicion3,posicion4) {
     super(posicion1,posicion2,posicion3,posicion4)
