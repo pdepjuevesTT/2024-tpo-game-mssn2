@@ -15,28 +15,31 @@ const jugador2 = new Jugador()
 
 
 object combate {
-    var property listaPersonajesOrdenada = []
     var property ganador = null 
+    var property personajes = null 
 
 
     method ordenarListaSegunVelocidadDeAtaque() {
-    listaPersonajesOrdenada = listaPersonajesOrdenada.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
+     return personajes.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
     }
 
 
     method pelea() {
+        var listaPersonajesOrdenada = self.ordenarListaSegunVelocidadDeAtaque()
         if(listaPersonajesOrdenada.all({personaje => personaje.vida() > 0})){
+            //delegar
              if (listaPersonajesOrdenada.all({jugador => jugador.preparado()})){
+                //filter != yo
                 listaPersonajesOrdenada.forEach({personaje => personaje.atacarAlResto(listaPersonajesOrdenada.remove(personaje))})
                 self.resetDeAtributosPostPelea(listaPersonajesOrdenada)
             }
-        else{
-                self.terminarBatalla()
+        }else{
+            self.terminarBatalla()
             }
-    }
 }
 
     method terminarBatalla(){
+        var listaPersonajesOrdenada = self.ordenarListaSegunVelocidadDeAtaque()
         ganador = 
             if(listaPersonajesOrdenada.all({jugador => jugador.vida() <= 0})) listaPersonajesOrdenada.first()
 
@@ -44,7 +47,7 @@ object combate {
         
         game.addVisual(ganadorPelea)
 
-        gameManager.cerrarJuego()
+        game.schedule(10000,{gameManager.cerrarJuego()})
         }
     
     method resetDeAtributosPostPelea(listaPersonajes) {
