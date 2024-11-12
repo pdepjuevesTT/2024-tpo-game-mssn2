@@ -71,7 +71,7 @@ object gameManager {
   }
 
 method configuracionHabilidades(listaPersonajes) {
-  
+  // ver cómo generalizar esto
   listaPersonajes.get(0).inicializarHabilidades(game.at(4,5) ,game.at(14,5), game.at(25,5) , game.at(35,5))  
   listaPersonajes.get(1).inicializarHabilidades(game.at(50,5) ,game.at(61,5), game.at(71,5) , game.at(81,5))
 
@@ -109,23 +109,25 @@ method seleccionPersonaje() {
 method configuracionDeDesplazamiento() {
 
 //desplazamiento J1
-  keyboard.left().onPressDo({selector1.irIzquierda()})
-  keyboard.right().onPressDo({selector1.irDerecha()})
-  keyboard.up().onPressDo({selector1.subir()})
-  keyboard.down().onPressDo({selector1.bajar()})
+  keyboard.left().onPressDo({selector1.moverse(izquierda)})
+  keyboard.right().onPressDo({selector1.moverse(derecha)})
+  keyboard.up().onPressDo({selector1.moverse(arriba)})
+  keyboard.down().onPressDo({selector1.moverse(abajo)})
 
   //COMBATE J1
-  keyboard.q().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(0))}) 
-  keyboard.e().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(1))})
-  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personajes().habilidades().get(2))})
-  keyboard.t().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(3))})
+  //delegar al personaje
+  const habilidades = jugador1.personaje().habilidades()
+  keyboard.q().onPressDo({jugador1.personaje().listoParaPelear(habilidades.get(0))}) 
+  keyboard.e().onPressDo({jugador1.personaje().listoParaPelear(habilidades.get(1))})
+  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(habilidades.get(2))})
+  keyboard.t().onPressDo({jugador1.personaje().listoParaPelear(habilidades.get(3))})
 
 
 //desplazamiento J2
-  keyboard.w().onPressDo({selector2.subir()})
-  keyboard.s().onPressDo({selector2.bajar()})
-  keyboard.a().onPressDo({selector2.irIzquierda()})
-  keyboard.d().onPressDo({selector2.irDerecha()})
+  keyboard.w().onPressDo({selector2.moverse(arriba)})
+  keyboard.s().onPressDo({selector2.moverse(abajo)})
+  keyboard.a().onPressDo({selector2.moverse(izquierda)})
+  keyboard.d().onPressDo({selector2.moverse(derecha)})
 
   //COMBATE J2
   keyboard.z().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(0))})
