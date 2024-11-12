@@ -10,10 +10,9 @@ class Personaje{
     var property fuerza
     var property preparado = false
     var property habilidadQueVaUsar = null
-   // var property probabilidadDeCritico 
     var property imagenSelector 
-    var property imagenBatalla = null
-    var property imagenAtaque = null
+    var property imagenBatalla = ""
+    var property imagenAtaque = ""
     var property image = imagenSelector
     var property velocidad
     var property habilidades = []
