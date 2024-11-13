@@ -15,47 +15,55 @@ const jugador2 = new Jugador()
 
 
 object combate {
-    var property listaPersonajesOrdenada = []
     var property ganador = null 
+    var property personajes = null 
 
 
-    method ordenarListaSegunVelocidadDeAtaque() {
-    listaPersonajesOrdenada = listaPersonajesOrdenada.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
-    }
+    method ordenarListaSegunVelocidadDeAtaque() = personajes.sortedBy({personaje1, personaje2 => personaje1.velocidad() > personaje2.velocidad()}) 
+    
 
 
     method pelea() {
-        if(listaPersonajesOrdenada.all({personaje => personaje.vida() > 0})){
-             if (listaPersonajesOrdenada.all({jugador => jugador.preparado()})){
-                listaPersonajesOrdenada.forEach({personaje => personaje.atacarAlResto(listaPersonajesOrdenada.remove(personaje))})
+        const listaPersonajesOrdenada = self.ordenarListaSegunVelocidadDeAtaque() 
+        if(self.todosVivos(listaPersonajesOrdenada)) {
+            if (self.todosListos(listaPersonajesOrdenada)){
+                self.atacan(listaPersonajesOrdenada)
                 self.resetDeAtributosPostPelea(listaPersonajesOrdenada)
+            }             
+        }else{
+            self.terminarBatalla(listaPersonajesOrdenada)
             }
-        else{
-                self.terminarBatalla()
-            }
-    }
 }
+    method todosListos(peleadores) = peleadores.all({jugador => jugador.preparado()})
 
-    method terminarBatalla(){
+    method todosVivos(peleadores) = peleadores.all({personaje => personaje.vida() > 0})
+
+    method atacan(peleadores){
+        peleadores.forEach({personaje => personaje.atacarAlResto(self.todosMenos(peleadores,personaje))}) 
+    }
+
+    method todosMenos(listaPeleadores,personaje) = listaPeleadores.filter({peleador => peleador != personaje})
+
+    method terminarBatalla(listaPersonajesOrdenada){
         ganador = 
-            if(listaPersonajesOrdenada.all({jugador => jugador.vida() <= 0})) listaPersonajesOrdenada.first()
+            if (listaPersonajesOrdenada.any({personaje =>  personaje.vida() > 0})) listaPersonajesOrdenada.max({personaje => personaje.vida()})
+            else listaPersonajesOrdenada.first()
+        
 
-            else listaPersonajesOrdenada.filter({personaje =>  personaje.vida() > 0}).max({personaje => personaje.vida()})
+        const ganadorPelea = new Visual(image = "ganadorJugador"+ self.numeroJugador(self.ganador()) +".png" )
         
         game.addVisual(ganadorPelea)
 
-        gameManager.cerrarJuego()
+        game.schedule(5000,{gameManager.cerrarJuego()})
         }
     
     method resetDeAtributosPostPelea(listaPersonajes) {
-        self.ordenarListaSegunVelocidadDeAtaque()
         listaPersonajes.forEach({personaje => personaje.preparado(false)})
         listaPersonajes.forEach({personaje => personaje.energia(personaje.energia() + 10)})
     }
+
+    method numeroJugador(jugador) = if (personajes.first() == jugador) 1 else 2
 }
 
 
 
-object ganadorPelea{
-    method text() = combate.ganador().nombre()
-}
