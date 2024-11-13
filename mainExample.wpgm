@@ -18,16 +18,3 @@ program juego {
 	gameManager.comenzarJuego()
 	
 }
-
-
-/*
-COSAS QUE RESTAN VER:
-la logica ya deberia estar todo, pero hay cosas que no funcionan, la pelea no cambia al gif 
-no cambia la barra de vida o energia, no se si agregar una tercer barra 
-ya hice que todos los tipos de personajes tengan algo unico 
-
-
-*/
-
-
-
