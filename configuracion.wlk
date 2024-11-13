@@ -49,7 +49,7 @@ object gameManager {
     personajesCombate.first().inicializarPersonaje("Derecha")
     personajesCombate.first().inicializarBarras(game.at(0,35),game.at(16,35),1)
     //personajesCombate.first().barras().forEach({barra => game.addVisual(barra)})
-    personajesCombate.first().inicializarBarras(game.at(49,35),game.at(65,35),1)
+    personajesCombate.last().inicializarBarras(game.at(49,35),game.at(65,35),1)
     personajesCombate.last().position(game.at(60,6))
     personajesCombate.last().inicializarPersonaje("Izquierda")
 
@@ -58,20 +58,20 @@ object gameManager {
 
     self.configuracionHabilidades(personajesCombate)
 
+
     game.schedule(500, {sonidoComienzoPelea.play()})
     game.schedule(4000, {sonidoFondoCombate.play()})
     sonidoFondoCombate.shouldLoop(true)
 
-    combate.listaPersonajesOrdenada(personajesCombate)
-    combate.ordenarListaSegunVelocidadDeAtaque()
+    combate.personajes(personajesCombate)
 
-    game.onTick(5000, "Pelear", {combate.pelea()})
-  
+    game.onTick(1000, "Pelear", {combate.pelea()})
+    game.onTick(1000,"barra",{personajesCombate.forEach({personaje => personaje.actualizarBarras()})})
   
   }
 
 method configuracionHabilidades(listaPersonajes) {
-  
+  // ver cómo generalizar esto
   listaPersonajes.get(0).inicializarHabilidades(game.at(4,5) ,game.at(14,5), game.at(25,5) , game.at(35,5))  
   listaPersonajes.get(1).inicializarHabilidades(game.at(50,5) ,game.at(61,5), game.at(71,5) , game.at(81,5))
 
@@ -109,29 +109,31 @@ method seleccionPersonaje() {
 method configuracionDeDesplazamiento() {
 
 //desplazamiento J1
-  keyboard.left().onPressDo({selector1.irIzquierda()})
-  keyboard.right().onPressDo({selector1.irDerecha()})
-  keyboard.up().onPressDo({selector1.subir()})
-  keyboard.down().onPressDo({selector1.bajar()})
+  keyboard.left().onPressDo({selector1.moverse(izquierda)})
+  keyboard.right().onPressDo({selector1.moverse(derecha)})
+  keyboard.up().onPressDo({selector1.moverse(arriba)})
+  keyboard.down().onPressDo({selector1.moverse(abajo)})
 
   //COMBATE J1
+  //delegar al personaje
+  //const habilidades = jugador1.personaje().habilidades()
   keyboard.q().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(0))}) 
   keyboard.e().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(1))})
-  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personajes().habilidades().get(2))})
+  keyboard.r().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(2))})
   keyboard.t().onPressDo({jugador1.personaje().listoParaPelear(jugador1.personaje().habilidades().get(3))})
 
 
 //desplazamiento J2
-  keyboard.w().onPressDo({selector2.subir()})
-  keyboard.s().onPressDo({selector2.bajar()})
-  keyboard.a().onPressDo({selector2.irIzquierda()})
-  keyboard.d().onPressDo({selector2.irDerecha()})
+  keyboard.w().onPressDo({selector2.moverse(arriba)})
+  keyboard.s().onPressDo({selector2.moverse(abajo)})
+  keyboard.a().onPressDo({selector2.moverse(izquierda)})
+  keyboard.d().onPressDo({selector2.moverse(derecha)})
 
   //COMBATE J2
   keyboard.z().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(0))})
   keyboard.x().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(1))})
   keyboard.c().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(2))})
-  keyboard.v().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personjae().habilidades().get(3))})
+  keyboard.v().onPressDo({jugador2.personaje().listoParaPelear(jugador2.personaje().habilidades().get(3))})
 
 //Seleccion personaje 
   keyboard.enter().onPressDo({self.seleccionPersonaje()})
@@ -149,4 +151,18 @@ method configuracionDeDesplazamiento() {
   method comenzarJuego() {
     game.start()
   }
+}
+
+object grilla{
+  const property posiciones = [game.at(6,1),game.at(6,14),game.at(6,27),game.at(58,1),game.at(32,27),game.at(32,27),game.at(58,14),game.at(32,1)] 
+  const property movimientoEnX = 26
+  const property movimientoEnY = 13
+  method inicializarGrilla() {
+    // personajes.forEach({personaje => personaje.asignarPosicion()})
+  }
+}
+
+class Posicion{
+  const property personaje 
+  const property posicion
 }
