@@ -1,0 +1,20 @@
+import wollok.game.*
+import jugador.*
+import personaje.*
+import configuracion.*
+import elementos.*
+
+
+
+program juego {
+	gameManager.configuracionIncialTablero()
+
+	gameManager.configuracionSonido()
+
+	gameManager.configuracionDeDesplazamiento()
+	
+	gameManager.menuIncio()
+
+	gameManager.comenzarJuego()
+	
+}
